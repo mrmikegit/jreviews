@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMB Setup Complete</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #34A853;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .copy-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+
+        .location-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+
+        .location-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Setup Complete!</h1>
+
+    <div class="card">
+        <h2>Your Credentials</h2>
+        <p>Run the following commands to configure your worker:</p>
+
+        <pre>
+npx wrangler secret put GMB_CLIENT_ID
+# Enter: {{ client_id }}
+
+npx wrangler secret put GMB_CLIENT_SECRET
+# Enter: {{ client_secret }}
+
+npx wrangler secret put GMB_REFRESH_TOKEN
+# Enter: {{ refresh_token }}
+        </pre>
+    </div>
+
+    <div class="card">
+        <h2>Your Accounts & Locations</h2>
+        {% if accounts %}
+        {% for account in accounts %}
+        <h3>Account: {{ account.name }}</h3>
+        <p><strong>GMB_ACCOUNT_ID:</strong> {{ account.id }}</p>
+
+        <h4>Locations:</h4>
+        {% if account.locations %}
+        {% for location in account.locations %}
+        <div class="location-item">
+            <strong>{{ location.title }}</strong><br>
+            GMB_LOCATION_ID: {{ location.id }}
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No locations found.</p>
+        {% endif %}
+        {% endfor %}
+        {% else %}
+        <p>No accounts found.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h2>Next Steps</h2>
+        <ol>
+            <li>Set the secrets using the commands above.</li>
+            <li>Set your Account ID and Location ID secrets:
+                <pre>
+npx wrangler secret put GMB_ACCOUNT_ID
+npx wrangler secret put GMB_LOCATION_ID
+                </pre>
+            </li>
+            <li>Enable GMB mode in <code>wrangler.toml</code>:
+                <pre>
+[vars]
+USE_GMB_OAUTH = "true"
+                </pre>
+            </li>
+            <li>Deploy again: <code>npx wrangler deploy</code></li>
+        </ol>
+    </div>
+</body>
+
+</html>
