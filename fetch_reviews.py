@@ -254,6 +254,12 @@ def oauth2callback():
     except Exception as e:
         error_details = traceback.format_exc()
         print(f"Error during OAuth callback:\n{error_details}")
+        
+        # Try to extract more info if it's an HttpError
+        if hasattr(e, 'content'):
+             print(f"HttpError Content: {e.content}")
+             error_details += f"\n\nHttpError Content:\n{e.content}"
+
         return f"Error during OAuth callback: {e}<br><pre>{error_details}</pre>", 500
 
 if __name__ == "__main__":
