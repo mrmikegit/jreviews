@@ -20,6 +20,11 @@ name = "GOOGLE_REVIEWS_CONTAINER"
 
 [[migrations]]
 tag = "v1"
+new_sqlite_classes = ["GoogleReviewsContainer"]
+
+[[migrations]]
+tag = "v2"
 new_sqlite_classes = ["JReviewsContainer"]
+deleted_classes = ["GoogleReviewsContainer"]
 
 upload_source_maps = true
