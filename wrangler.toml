@@ -19,5 +19,4 @@ name = "GOOGLE_REVIEWS_CONTAINER"
 tag = "v1"
 new_sqlite_classes = ["GoogleReviewsContainer"]
 
-[upload_source_maps]
-enabled = true
+upload_source_maps = true
