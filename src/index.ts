@@ -1,7 +1,7 @@
 import { Container, getContainer } from "@cloudflare/containers";
 import { Hono } from "hono";
 
-export class GoogleReviewsContainer extends Container<Env> {
+export class JReviewsContainer extends Container<Env> {
 	// Port the container listens on (default: 8080)
 	defaultPort = 8080;
 	// Time before container sleeps due to inactivity (default: 30s)

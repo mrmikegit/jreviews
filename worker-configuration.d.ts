@@ -7,5 +7,5 @@ interface Env {
     GMB_REFRESH_TOKEN: string;
     GMB_ACCOUNT_ID: string;
     GMB_LOCATION_ID: string;
-    GOOGLE_REVIEWS_CONTAINER: DurableObjectNamespace<import("./src/index").GoogleReviewsContainer>;
+    GOOGLE_REVIEWS_CONTAINER: DurableObjectNamespace<import("./src/index").JReviewsContainer>;
 }

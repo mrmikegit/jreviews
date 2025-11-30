@@ -10,16 +10,16 @@ USE_GMB_OAUTH = "false"
 enabled = true
 
 [[containers]]
-class_name = "GoogleReviewsContainer"
+class_name = "JReviewsContainer"
 image = "./Dockerfile"
 max_instances = 10
 
 [[durable_objects.bindings]]
-class_name = "GoogleReviewsContainer"
+class_name = "JReviewsContainer"
 name = "GOOGLE_REVIEWS_CONTAINER"
 
 [[migrations]]
 tag = "v1"
-new_sqlite_classes = ["GoogleReviewsContainer"]
+new_sqlite_classes = ["JReviewsContainer"]
 
 upload_source_maps = true
