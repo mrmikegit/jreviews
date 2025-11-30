@@ -208,11 +208,12 @@ def oauth2callback():
         creds = flow.credentials
         refresh_token = creds.refresh_token
         
-        # Fetch Accounts and Locations
-        service = build("mybusinessbusinessinformation", "v1", credentials=creds)
+        # Fetch Accounts using Account Management API
+        account_service = build("mybusinessaccountmanagement", "v1", credentials=creds)
+        business_service = build("mybusinessbusinessinformation", "v1", credentials=creds)
         
         accounts_data = []
-        accounts_response = service.accounts().list().execute()
+        accounts_response = account_service.accounts().list().execute()
         accounts = accounts_response.get("accounts", [])
         
         for account in accounts:
@@ -220,7 +221,8 @@ def oauth2callback():
             account_id = account_name.split("/")[1]
             
             locations_data = []
-            locations_response = service.accounts().locations().list(
+            # Fetch Locations using Business Information API
+            locations_response = business_service.accounts().locations().list(
                 parent=account_name,
                 readMask="name,title,storeCode"
             ).execute()

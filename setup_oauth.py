@@ -45,10 +45,11 @@ def main():
 
         # List Accounts and Locations
         print("--- Fetching Accounts and Locations ---")
-        service = build("mybusinessbusinessinformation", "v1", credentials=creds)
+        account_service = build("mybusinessaccountmanagement", "v1", credentials=creds)
+        business_service = build("mybusinessbusinessinformation", "v1", credentials=creds)
 
         # List Accounts
-        accounts_request = service.accounts().list()
+        accounts_request = account_service.accounts().list()
         accounts_response = accounts_request.execute()
         accounts = accounts_response.get("accounts", [])
 
@@ -62,7 +63,7 @@ def main():
                 print(f"GMB_ACCOUNT_ID: {account_id}")
 
                 # List Locations for this Account
-                locations_request = service.accounts().locations().list(
+                locations_request = business_service.accounts().locations().list(
                     parent=account_name,
                     readMask="name,title,storeCode"
                 )
