@@ -12,7 +12,7 @@ enabled = true
 [[containers]]
 class_name = "JReviewsContainer"
 image = "./Dockerfile"
-max_instances = 1
+max_instances = 10
 
 [[durable_objects.bindings]]
 class_name = "JReviewsContainer"
