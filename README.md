@@ -1,70 +1,39 @@
 # Google Reviews Fetcher
 
-This project runs a Docker container on Cloudflare Workers (using Cloudflare Containers beta) to fetch Google Reviews for a specific place and save them to a JSON file.
+A Dockerized Flask application that fetches customer reviews from Google and displays them on a web page. Supports both the Google Places API and the Google My Business (GMB) API via OAuth.
 
-## Prerequisites
+## Features
 
-- Node.js and npm installed
-- Cloudflare account with access to Containers beta
-- Google Places API Key
-- Place ID of the business
+- **Dual API Support**: Switch between Google Places API and GMB API using a flag.
+- **Web-Based OAuth Setup**: Easily obtain GMB credentials via a built-in setup page.
+- **Cloud Run Ready**: Optimized for deployment on Google Cloud Run.
 
-## Setup
+## Deployment (Google Cloud Run)
 
-1.  Install dependencies:
+1.  **Prerequisites**:
+    - Google Cloud Project.
+    - `gcloud` CLI installed.
+
+2.  **Deploy**:
     ```bash
-    npm install
+    ./deploy_cloud_run.sh
     ```
 
-2.  Login to Cloudflare:
-    ```bash
-    npx wrangler login
-    ```
+3.  **Configuration**:
+    Set the following environment variables in your Cloud Run service:
 
-## Deployment
-
-To deploy the container to Cloudflare:
-
-1.  Set your secrets (API Key and Place ID):
-    ```bash
-    npx wrangler secret put GOOGLE_API_KEY
-    npx wrangler secret put PLACE_ID
-    ```
-
-2.  Deploy the worker:
-    ```bash
-    npx wrangler deploy
-    ```
+    | Variable | Description |
+    | :--- | :--- |
+    | `USE_GMB_OAUTH` | Set to `true` to use GMB API, `false` for Places API. |
+    | `GOOGLE_API_KEY` | Required if `USE_GMB_OAUTH` is `false`. |
+    | `PLACE_ID` | Required if `USE_GMB_OAUTH` is `false`. |
+    | `GMB_CLIENT_ID` | Required if `USE_GMB_OAUTH` is `true`. |
+    | `GMB_CLIENT_SECRET` | Required if `USE_GMB_OAUTH` is `true`. |
+    | `GMB_REFRESH_TOKEN` | Required if `USE_GMB_OAUTH` is `true`. |
+    | `GMB_ACCOUNT_ID` | Required if `USE_GMB_OAUTH` is `true`. |
+    | `GMB_LOCATION_ID` | Required if `USE_GMB_OAUTH` is `true`. |
 
 ## Usage
 
-Once deployed, you can trigger the review fetch by visiting the Worker URL with the `/fetch` endpoint:
-
-```
-https://google-reviews-fetcher.<your-subdomain>.workers.dev/fetch
-```
-
-The container will start, fetch the reviews, save them to `/data/reviews.json`, and keep running (serving a simple status page).
-
-## Local Development (Optional)
-
-You can still build and run the Docker container locally if needed:
-
-```bash
-docker build -t google-reviews-fetcher .
-docker run --rm \
-  -e GOOGLE_API_KEY="YOUR_API_KEY" \
-  -e PLACE_ID="YOUR_PLACE_ID" \
-  -v $(pwd)/data:/data \
-  google-reviews-fetcher
-```
-
-### Environment Variables
-
-- `GOOGLE_API_KEY`: Your Google Places API Key (Required).
-- `PLACE_ID`: The Place ID of the business (Required).
-- `OUTPUT_FILE`: Path to save the JSON file inside the container (Default: `/data/reviews.json`).
-
-## Output
-
-The reviews will be saved to `reviews.json` in the mounted volume.
+- **View Reviews**: Visit the root URL (`/`).
+- **Setup OAuth**: Visit `/setup` to generate your Refresh Token and find your Account/Location IDs.
