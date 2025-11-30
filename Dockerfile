@@ -6,6 +6,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY fetch_reviews.py .
+COPY templates/ templates/
 
 # Set default environment variables (can be overridden at runtime)
 ENV OUTPUT_FILE=/data/reviews.json

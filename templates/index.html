@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Reviews</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4285F4;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .author {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .rating {
+            color: #FBBC05;
+            margin: 5px 0;
+        }
+
+        .time {
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .text {
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Customer Reviews</h1>
+
+    {% if reviews %}
+    {% for review in reviews %}
+    <div class="review-card">
+        <div class="author">
+            <img src="{{ review.profile_photo_url }}" alt="{{ review.author_name }}">
+            {{ review.author_name }}
+        </div>
+        <div class="rating">
+            {% for i in range(review.rating) %}★{% endfor %}
+            {% for i in range(5 - review.rating) %}☆{% endfor %}
+        </div>
+        <div class="time">{{ review.relative_time_description }}</div>
+        <div class="text">{{ review.text }}</div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p style="text-align: center;">No reviews available.</p>
+    {% endif %}
+</body>
+
+</html>

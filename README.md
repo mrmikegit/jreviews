@@ -1,24 +1,57 @@
 # Google Reviews Fetcher
 
-This Docker container fetches Google Reviews for a specific place using the Google Places API and saves them to a JSON file.
+This project runs a Docker container on Cloudflare Workers (using Cloudflare Containers beta) to fetch Google Reviews for a specific place and save them to a JSON file.
 
 ## Prerequisites
 
-- Docker installed
+- Node.js and npm installed
+- Cloudflare account with access to Containers beta
 - Google Places API Key
 - Place ID of the business
 
-## Build the Image
+## Setup
 
-```bash
-sudo docker build -t google-reviews-fetcher .
+1.  Install dependencies:
+    ```bash
+    npm install
+    ```
+
+2.  Login to Cloudflare:
+    ```bash
+    npx wrangler login
+    ```
+
+## Deployment
+
+To deploy the container to Cloudflare:
+
+1.  Set your secrets (API Key and Place ID):
+    ```bash
+    npx wrangler secret put GOOGLE_API_KEY
+    npx wrangler secret put PLACE_ID
+    ```
+
+2.  Deploy the worker:
+    ```bash
+    npx wrangler deploy
+    ```
+
+## Usage
+
+Once deployed, you can trigger the review fetch by visiting the Worker URL with the `/fetch` endpoint:
+
+```
+https://google-reviews-fetcher.<your-subdomain>.workers.dev/fetch
 ```
 
-## Run the Container
+The container will start, fetch the reviews, save them to `/data/reviews.json`, and keep running (serving a simple status page).
 
-To run the container and save the reviews to a local directory (e.g., `./data`), use the following command:
+## Local Development (Optional)
+
+You can still build and run the Docker container locally if needed:
 
 ```bash
+docker build -t google-reviews-fetcher .
 docker run --rm \
   -e GOOGLE_API_KEY="YOUR_API_KEY" \
   -e PLACE_ID="YOUR_PLACE_ID" \
