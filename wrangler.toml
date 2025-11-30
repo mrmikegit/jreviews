@@ -1,0 +1,23 @@
+name = "google-reviews-fetcher"
+main = "src/index.ts"
+compatibility_date = "2025-10-08"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
+
+[[containers]]
+class_name = "GoogleReviewsContainer"
+image = "./Dockerfile"
+max_instances = 10
+
+[[durable_objects.bindings]]
+class_name = "GoogleReviewsContainer"
+name = "GOOGLE_REVIEWS_CONTAINER"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["GoogleReviewsContainer"]
+
+[upload_source_maps]
+enabled = true
